@@ -1,3 +1,37 @@
+
+// ===================== Google Identity Services Login =====================
+window.addEventListener('load', function () {
+    google.accounts.id.initialize({
+        client_id: "698206969022-c30bmj91rm23a1k8dnk8hgs9iea58d1b.apps.googleusercontent.com",
+        callback: handleCredentialResponse
+    });
+    document.getElementById("googleSignInBtn").addEventListener("click", function () {
+        google.accounts.id.prompt(); // Show One Tap or Popup
+    });
+});
+
+function handleCredentialResponse(response) {
+    const data = parseJwt(response.credential);
+    const email = data.email;
+    const name = data.name || email.split('@')[0];
+    const existingUser = users.find(u => u.email === email);
+    if (existingUser) {
+        loginUser(email, existingUser.password || "");
+    } else {
+        registerUser(name, email, "google-oauth-" + Date.now());
+    }
+}
+
+function parseJwt(token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+}
+// ==========================================================================
+
 // Theme Toggle
 function toggleTheme() {
     const body = document.body;
@@ -52,29 +86,6 @@ let budgetSettings = {
 let users = JSON.parse(localStorage.getItem('users')) || [];
 
 // Google Sign-In
-function onGoogleSignIn(googleUser) {
-    const profile = googleUser.getBasicProfile();
-    const email = profile.getEmail();
-    const name = profile.getName();
-    
-    // Check if user exists
-    const existingUser = users.find(u => u.email === email);
-    
-    if (existingUser) {
-        loginUser(email, existingUser.password); // Password won't be used
-    } else {
-        // Register new user with dummy password
-        registerUser(name, email, 'google-oauth-' + Date.now());
-    }
-}
-
-function signOut() {
-    const auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(() => {
-        logoutUser();
-    });
-}
-
 // Toggle password visibility
 function togglePassword(fieldId) {
     const field = document.getElementById(fieldId);
