@@ -1,3 +1,4 @@
+import { saveUserData, loadUserData } from "./firebase-init.js";
 
 // ===================== Google Identity Services Login =====================
 window.addEventListener('load', function () {
@@ -130,7 +131,7 @@ function loadTransactions() {
 }
 
 // Save transactions to localStorage
-function saveTransactions() {
+async function saveTransactions() {
     if (!currentUser) return;
     
     const userData = {
@@ -140,7 +141,7 @@ function saveTransactions() {
         budgetSettings
     };
     
-    localStorage.setItem(`user_${currentUser.email}`, JSON.stringify(userData));
+    await saveUserData(currentUser.email, userData);
 }
 
 // Add Transaction
