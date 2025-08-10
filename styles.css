@@ -1352,3 +1352,25 @@ body {
         height: 32px; /* Make icon slightly larger when alone */
     }
 }
+
+/* Google Sign-In Button */
+.btn-google {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.2s;
+}
+.btn-google img {
+    width: 20px;
+    height: 20px;
+}
+.btn-google:hover {
+    background-color: #f1f1f1;
+}
