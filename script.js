@@ -147,7 +147,7 @@ function loadTransactions() {
 }
 
 // Save transactions to localStorage
-function saveTransactions() {
+async function saveTransactions() {
     if (!currentUser) return;
     
     const userData = {
