@@ -157,7 +157,8 @@ async function saveTransactions() {
         budgetSettings
     };
     
-    await saveUserData
+        await saveUserData(currentUser.email, userData);
+        setButtonLoading(btn, false);
     setButtonLoading(btn, false)(currentUser.email, userData);
 }
 
