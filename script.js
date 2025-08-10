@@ -1,5 +1,21 @@
 import { saveUserData, loadUserData } from "./firebase-init.js";
 
+function setButtonLoading(btn, isLoading, loadingText = "Saving...") {
+    if (!btn) return;
+    if (isLoading) {
+        btn.dataset.originalText = btn.innerHTML;
+        btn.classList.add("loading");
+        btn.innerHTML = loadingText;
+    } else {
+        btn.classList.remove("loading");
+        if (btn.dataset.originalText) {
+            btn.innerHTML = btn.dataset.originalText;
+            delete btn.dataset.originalText;
+        }
+    }
+}
+
+
 // ===================== Google Identity Services Login =====================
 window.addEventListener('load', function () {
     google.accounts.id.initialize({
@@ -131,7 +147,7 @@ function loadTransactions() {
 }
 
 // Save transactions to localStorage
-async function saveTransactions() {
+function saveTransactions() {
     if (!currentUser) return;
     
     const userData = {
@@ -141,7 +157,8 @@ async function saveTransactions() {
         budgetSettings
     };
     
-    await saveUserData(currentUser.email, userData);
+    await saveUserData
+    setButtonLoading(btn, false)(currentUser.email, userData);
 }
 
 // Add Transaction
@@ -608,6 +625,8 @@ function renderCalendar() {
         
         // Add click event to show transactions for this day
         dayElement.addEventListener('click', () => {
+    const btn = event?.target;
+    setButtonLoading(btn, true);
             showDayTransactions(dateStr, dayTransactions);
         });
         
@@ -811,3 +830,27 @@ window.addEventListener('load', initApp);
 
 // Check budget alerts after initial render
 setTimeout(checkBudgetAlerts, 2000);
+
+
+const googleBtn = document.getElementById("googleSignInBtn");
+if (googleBtn) {
+    googleBtn.addEventListener("click", () => {
+        setButtonLoading(googleBtn, true, "Signing in...");
+    });
+}
+
+
+const loginBtn = document.getElementById("loginBtn");
+if (loginBtn) {
+    loginBtn.addEventListener("click", () => {
+        setButtonLoading(loginBtn, true, "Signing in...");
+    });
+}
+
+
+const registerBtn = document.getElementById("registerBtn");
+if (registerBtn) {
+    registerBtn.addEventListener("click", () => {
+        setButtonLoading(registerBtn, true, "Registering...");
+    });
+}
