@@ -1,5 +1,4 @@
-# FinSnap
-FinSnap is a sleek, modern personal finance tracker that helps users visualize their spending, manage budgets, and gain insights through interactive dashboards, auto-categorized transactions, and gamified financial goals — built using HTML, CSS, and JavaScript.
+
 # 💰 FinSnap — Personal Finance & Budget Tracker
 
 FinSnap is a modern, responsive personal finance tracker that helps you manage **transactions**, **budgets**, **credit card bills**, and **savings goals** — all synchronized across devices using **Firebase Authentication** and **Cloud Firestore**.
